@@ -4,8 +4,6 @@ import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-import './Category.css'
-
 import categoryImg1 from '../../../assets/home/slide1.jpg'
 import categoryImg2 from '../../../assets/home/slide2.jpg'
 import categoryImg3 from '../../../assets/home/slide3.jpg'
