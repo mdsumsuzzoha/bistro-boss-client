@@ -51,7 +51,7 @@ const Navbar = () => {
                 </div>
                 <div className="navbar-end space-x-6">
                     <div>
-                        <button className="btn btn-sm btn-outline">Sign In</button>
+                        <Link to='/login'>Sign In</Link>
                     </div>
                     <div className="dropdown dropdown-end">
                         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">

@@ -1,5 +1,6 @@
 import Cover from "../../Shared/Cover/Cover";
-import Navbar from "../../Shared/Navbar/Navbar";
+// import Navbar from "../../Shared/Navbar/Navbar";
+// import Footer from "../../Shared/Footer/Footer";
 import { Helmet } from 'react-helmet-async';
 import bgImg from '../../../assets/menu/banner3.jpg'
 import dessertImg from '../../../assets/menu/dessert-bg.jpeg'
@@ -8,7 +9,6 @@ import saladImg from '../../../assets/menu/salad-bg.jpg'
 import soupImg from '../../../assets/menu/soup-bg.jpg'
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 import useMenu from "../../../hooks/useMenu";
-import Footer from "../../Shared/Footer/Footer";
 import MenuCategory from "../MenuCategory/MenuCategory";
 import MenuItem from "../../Shared/MenuItem/MenuItem";
 
@@ -26,7 +26,7 @@ const Menu = () => {
                 <title>Bostro Boss Menu</title>
                 <link rel="canonical" href="https://www.tacobell.com/" />
             </Helmet>
-            <Navbar></Navbar>
+            {/* <Navbar></Navbar> */}
             {/* main/offered sections */}
             <section>
                 <Cover bgImg={bgImg} title={'Our Menu'} details={'Would you like to try a dish?'}></Cover>
@@ -71,7 +71,7 @@ const Menu = () => {
                     title={'soup'}
                 ></MenuCategory>
             </section>
-            <Footer></Footer>
+            {/* <Footer></Footer> */}
         </>
     );
 };

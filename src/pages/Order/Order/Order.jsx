@@ -1,7 +1,7 @@
 import Cover from "../../Shared/Cover/Cover";
-import Navbar from "../../Shared/Navbar/Navbar";
+// import Navbar from "../../Shared/Navbar/Navbar";
+// import Footer from "../../Shared/Footer/Footer";
 import bgImg from "../../../assets/shop/banner2.jpg";
-import Footer from "../../Shared/Footer/Footer";
 import { Helmet } from "react-helmet-async";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
@@ -32,7 +32,7 @@ const Order = () => {
                 <title>Bostro Boss Order</title>
                 <link rel="canonical" href="https://www.tacobell.com/" />
             </Helmet>
-            <Navbar></Navbar>
+            {/* <Navbar></Navbar> */}
             <Cover bgImg={bgImg} title={"OUR SHOP"} details={'Would you like to try a dish?'}></Cover>
 
             <section className="w-full mx-auto my-24 text-center text-2xl">
@@ -65,7 +65,7 @@ const Order = () => {
                 </Tabs>
             </section>
 
-            <Footer></Footer>
+            {/* <Footer></Footer> */}
 
         </>
     );
