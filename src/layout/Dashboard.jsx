@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { FaCalendarAlt, FaCalendarCheck, FaHome, FaShoppingCart, FaStarHalfAlt } from "react-icons/fa";
+import { FaCalendarAlt, FaCalendarCheck, FaGripLines, FaHome, FaMailBulk, FaShoppingBag, FaShoppingCart, FaStarHalfAlt } from "react-icons/fa";
 
 
 const Dashboard = () => {
@@ -23,9 +23,22 @@ const Dashboard = () => {
                     <li>
                         <NavLink to='/dashboard/myBooking' className="uppercase text-xl"> <FaCalendarCheck />my booking</NavLink>
                     </li>
+                    <div className="divider divider-warning"></div>
+                    <li>
+                        <NavLink to='/' className="uppercase text-xl"> <FaHome />Home</NavLink>
+                    </li>
+                    <li>
+                        <NavLink to='/menu' className="uppercase text-xl"> <FaGripLines />menu</NavLink>
+                    </li>
+                    <li>
+                        <NavLink to='/order/salad' className="uppercase text-xl"> <FaShoppingBag />Shop</NavLink>
+                    </li>
+                    <li>
+                        <NavLink to='/contact' className="uppercase text-xl"> <FaMailBulk />Contact Us</NavLink>
+                    </li>
                 </ul>
             </div>
-            <div className="flex-1">
+            <div className="flex-1 p-10">
                 <Outlet></Outlet>
             </div>
         </div>
