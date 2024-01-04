@@ -4,16 +4,36 @@ import './SignUp.css'
 import { Helmet } from 'react-helmet-async';
 import { useContext } from 'react';
 import { AuthContext } from '../../providers/AuthProvider';
+import Swal from 'sweetalert2';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
-    const { createUser } = useContext(AuthContext);
-    const { register, handleSubmit,  formState: { errors }, } = useForm();
+    const { createUser, updateUserProfile } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const location = useLocation()
+    const from = location.state?.from.pathname || '/';
+
+    const { register, handleSubmit, reset, formState: { errors }, } = useForm();
     const onSubmit = (data) => {
         console.log(data)
-        const { email, password } = data;
+        const { email, password, name, photoUrl } = data;
         createUser(email, password)
             .then((result) => {
                 console.log(result.user);
+                updateUserProfile(name, photoUrl)
+                    .then(() => {
+                        Swal.fire({
+                            title: "Successeded",
+                            text: "Sign Up successful",
+                            icon: "success"
+                        });
+                        navigate(from, { replace: true });
+                        reset();
+                        // Profile updated!
+                    }).catch((error) => {
+                        console.log(error)
+                        // ...
+                    });
             })
             .catch(() => {
             })
@@ -36,9 +56,16 @@ const SignUp = () => {
                             <form onSubmit={handleSubmit(onSubmit)} className="card-body">
                                 <div className="form-control">
                                     <label className="label">
-                                        <span className="label-text">Email</span>
+                                        <span className="label-text">Name</span>
                                     </label>
                                     <input type="text" {...register("name", { required: true })} placeholder="name" className="input input-bordered" />
+                                    {errors.name && <span className='text-red-400'>Name is required</span>}
+                                </div>
+                                <div className="form-control">
+                                    <label className="label">
+                                        <span className="label-text">Photo URL</span>
+                                    </label>
+                                    <input type="text" {...register("photoUrl", { required: true })} placeholder="Photo" className="input input-bordered" />
                                     {errors.name && <span className='text-red-400'>Name is required</span>}
                                 </div>
                                 <div className="form-control">

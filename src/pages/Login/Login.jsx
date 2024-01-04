@@ -4,11 +4,16 @@ import { LoadCanvasTemplate, loadCaptchaEnginge, validateCaptcha } from 'react-s
 import { AuthContext } from '../../providers/AuthProvider';
 import './Login.css'
 import { Helmet } from 'react-helmet-async';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const captchaRef = useRef(null);
     const [captchaValue, setCaptchaValue] = useState(null);
     const { signIn } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const location= useLocation()
+
+    const from = location.state?.from?.pathname || '/';
 
 
     useEffect(() => {
@@ -22,9 +27,9 @@ const Login = () => {
         const password = form.password.value;
         signIn(email, password)
             .then((result) => {
-                // Signed in 
                 console.log('signin', result.user)
-                // ...
+                // Signed in popup swal
+                navigate(from,{replace: true});
             })
             .catch(() => {
                 // const errorMessage = error.message;
