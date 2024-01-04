@@ -73,7 +73,7 @@ const Navbar = () => {
                                 <span className="font-bold text-lg">{cart.length} Items</span>
                                 <span className="text-info">Subtotal: $999</span>
                                 <div className="card-actions">
-                                    <button className="btn btn-outline btn-info btn-block">View cart</button>
+                                    <Link to='/dashboard/cart' className="btn btn-outline btn-info btn-block">View cart</Link>
                                 </div>
                             </div>
                         </div>
