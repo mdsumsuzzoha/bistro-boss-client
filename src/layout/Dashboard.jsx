@@ -15,7 +15,7 @@ const Dashboard = () => {
                         <NavLink to='/dashboard/reservation' className="uppercase text-xl"> <FaCalendarAlt /> reservation</NavLink>
                     </li>
                     <li>
-                        <NavLink to='/dashboard/cart' className="uppercase text-xl"> <FaShoppingCart /> My cart</NavLink>
+                <NavLink to='/dashboard/cart' className="uppercase text-xl"> <FaShoppingCart /> My cart</NavLink>
                     </li>
                     <li>
                         <NavLink to='/dashboard/myBooking' className="uppercase text-xl"> <FaStarHalfAlt />add review</NavLink>

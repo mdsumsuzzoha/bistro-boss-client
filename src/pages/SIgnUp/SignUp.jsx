@@ -2,33 +2,48 @@ import { useForm } from 'react-hook-form';
 import loginImg from '../../assets/others/authentication1.png'
 import './SignUp.css'
 import { Helmet } from 'react-helmet-async';
-import { useContext } from 'react';
-import { AuthContext } from '../../providers/AuthProvider';
 import Swal from 'sweetalert2';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import useAxiosPublic from '../../hooks/useAxiosPublic';
+import useAuth from '../../hooks/useAuth';
+import SocialLogin from '../Shared/SocialLogin/SocialLogin';
+
 
 const SignUp = () => {
-    const { createUser, updateUserProfile } = useContext(AuthContext);
+    const axiosPublic = useAxiosPublic();
+    const { createUser, updateUserProfile } = useAuth()
+    // const { createUser, updateUserProfile } = useContext(AuthContext);
     const navigate = useNavigate();
     const location = useLocation()
     const from = location.state?.from.pathname || '/';
 
     const { register, handleSubmit, reset, formState: { errors }, } = useForm();
     const onSubmit = (data) => {
-        console.log(data)
+        // console.log(data)
         const { email, password, name, photoUrl } = data;
         createUser(email, password)
             .then((result) => {
                 console.log(result.user);
                 updateUserProfile(name, photoUrl)
                     .then(() => {
-                        Swal.fire({
-                            title: "Successeded",
-                            text: "Sign Up successful",
-                            icon: "success"
-                        });
-                        navigate(from, { replace: true });
-                        reset();
+                        // set users info in DB 
+                        const userInfo = {
+                            name: name,
+                            email: email,
+                            // creationTime:result.user.creationTime,                    
+                        }
+                        axiosPublic.post('/users', userInfo)
+                            .then(res => {
+                                if (res.data.insertedId) {
+                                    Swal.fire({
+                                        title: "Successeded",
+                                        text: "User created successfully",
+                                        icon: "success"
+                                    });
+                                    navigate(from, { replace: true });
+                                    reset();
+                                }
+                            })
                         // Profile updated!
                     }).catch((error) => {
                         console.log(error)
@@ -52,7 +67,8 @@ const SignUp = () => {
                         <div className="w-[648px] h-[455px] mx-auto my-auto">
                             <img src={loginImg} className='w-[648px] h-[455px]' alt="" />
                         </div>
-                        <div className="card shrink-0 w-full max-w-lg shadow-2xl bg-base-100">
+                        <div className="card shrink-0 w-full max-w-lg shadow-2xl ">
+                            <h3 className='text-3xl font-bold text-center mt-4'>Sign Up</h3>
                             <form onSubmit={handleSubmit(onSubmit)} className="card-body">
                                 <div className="form-control">
                                     <label className="label">
@@ -104,6 +120,11 @@ const SignUp = () => {
                                     <input type="submit" className="btn btn-primary" value='Sign Up' />
                                 </div>
                             </form>
+                            <div className='text-center space-y-4 mb-4'>
+                                <p>Already register?? <span><Link to='/login'>Go to login</Link></span></p>
+                                <p>Sign up with</p>
+                                <SocialLogin></SocialLogin>
+                            </div>
                         </div>
                     </div>
                 </div>

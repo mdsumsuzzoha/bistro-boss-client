@@ -11,11 +11,11 @@ const FoodCard = ({ item }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const axiosSecure = useAxiosSecure();
-    const [, refetch]=useCart();
+    const [, refetch] = useCart();
 
-    const handleAddCart = (item) => {
+    const handleAddCart = () => {
         if (user && user?.email) {
-            console.log(item, user?.email);
+            // console.log(item, user?.email);
             Swal.fire({
                 title: "Are you sure?",
                 text: "You won't be able to revert this!",
@@ -31,11 +31,12 @@ const FoodCard = ({ item }) => {
                         menuId: _id,
                         email: user.email,
                         name: name,
+                        image: image,
                         price: price,
                     }
                     axiosSecure.post('/carts', cartItem)
                         .then(res => {
-                            console.log(res.data)
+                            // console.log(res.data)
                             if (res.data.insertedId) {
                                 Swal.fire({
                                     title: "Addeded",

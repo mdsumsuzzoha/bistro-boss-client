@@ -1,35 +1,34 @@
-import { useContext, useEffect, useRef, useState, } from 'react';
+import { useEffect, useRef, useState, } from 'react';
 import loginImg from '../../assets/others/authentication1.png'
 import { LoadCanvasTemplate, loadCaptchaEnginge, validateCaptcha } from 'react-simple-captcha';
-import { AuthContext } from '../../providers/AuthProvider';
 import './Login.css'
 import { Helmet } from 'react-helmet-async';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import useAuth from '../../hooks/useAuth';
+import SocialLogin from '../Shared/SocialLogin/SocialLogin';
 
 const Login = () => {
-    const captchaRef = useRef(null);
-    const [captchaValue, setCaptchaValue] = useState(null);
-    const { signIn } = useContext(AuthContext);
-    const navigate = useNavigate();
-    const location= useLocation()
+    const { register, handleSubmit, formState: { errors }, } = useForm();
 
+    const captchaRef = useRef(null);
+    const [disabled, setDisabled] = useState(true);
+    const { signIn } = useAuth();
+    const navigate = useNavigate();
     const from = location.state?.from?.pathname || '/';
+
 
 
     useEffect(() => {
         loadCaptchaEnginge(6);
     }, [])
 
-    const handleLogin = e => {
-        e.preventDefault();
-        const form = e.target;
-        const email = form.email.value;
-        const password = form.password.value;
-        signIn(email, password)
+    const handleLogin = data => {
+        signIn(data.email, data.password)
             .then((result) => {
                 console.log('signin', result.user)
                 // Signed in popup swal
-                navigate(from,{replace: true});
+                navigate(from, { replace: true });
             })
             .catch(() => {
                 // const errorMessage = error.message;
@@ -37,11 +36,11 @@ const Login = () => {
 
     }
 
-    const handleValidateCaptcha = () => {
-        const value = captchaRef.current.value;
-        setCaptchaValue(value);
-        if (validateCaptcha(captchaValue) === true) {
-            alert('Captcha Matched');
+    const handleValidateCaptcha = (e) => {
+        e.preventDefault();
+        const userCaptchaValue = captchaRef.current.value;
+        if (validateCaptcha(userCaptchaValue) === true) {
+            setDisabled(false);
         }
     }
 
@@ -57,36 +56,68 @@ const Login = () => {
                         <div className="w-[648px] h-[455px] mx-auto my-auto">
                             <img src={loginImg} className='w-[648px] h-[455px]' alt="" />
                         </div>
-                        <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-                            <form onSubmit={handleLogin} className="card-body">
+                        <div className="card shrink-0 w-full max-w-lg shadow-2xl ">
+                            <h3 className='text-3xl font-bold text-center mt-4'>Sign Up</h3>
+                            <form onSubmit={handleSubmit(handleLogin)} className="card-body">
                                 <div className="form-control">
                                     <label className="label">
                                         <span className="label-text">Email</span>
                                     </label>
-                                    <input type="email" name='email' placeholder="email" className="input input-bordered" required />
+                                    <input
+                                        type="email"
+                                        {...register('email', { required: 'Email is required' })}
+                                        placeholder="email"
+                                        className="input input-bordered"
+                                    />
+                                    {errors.email && <span>{errors.email.message}</span>}
                                 </div>
 
                                 <div className="form-control">
                                     <label className="label">
                                         <span className="label-text">Password</span>
                                     </label>
-                                    <input type="password" name='password' placeholder="password" className="input input-bordered" required />
+                                    <input
+                                        type="password"
+                                        {...register('password', { required: 'Password is required' })}
+                                        placeholder="password"
+                                        className="input input-bordered"
+                                    />
+                                    {errors.password && <span>{errors.password.message}</span>}
                                     <label className="label">
-                                        <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
+                                        <a href="#" className="label-text-alt link link-hover">
+                                            Forgot password?
+                                        </a>
                                     </label>
                                 </div>
+
                                 <div className="form-control">
-                                    <label className="label">
+                                    <label className="lebel m-2">
                                         <LoadCanvasTemplate />
                                     </label>
-                                    <input ref={captchaRef} type="text" name='captcha'
-                                        placeholder="Enter the captcha" className="input input-bordered" required />
-                                    <button onClick={handleValidateCaptcha} className="btn btn-outline btn-xs w-full mt-2">Check Captcha</button>
+                                    <div className="join w-full border">
+                                        <input
+                                            ref={captchaRef}
+                                            className="input input-bordered w-full join-item"
+                                            // {...register('captcha', { required: 'Captcha is required' })}
+                                            type="text"
+                                            placeholder="Enter the captcha"
+                                        />
+                                        <button onClick={handleValidateCaptcha} className="btn btn-outline join-item rounded-r-lg">Submit</button>
+                                    </div>
+                                    {errors.captcha && <span>{errors.captcha.message}</span>}
                                 </div>
+
                                 <div className="form-control mt-6">
-                                    <button type='submit' className="btn btn-primary">Login</button>
+                                    <button type="submit" disabled={disabled} className="btn btn-primary">
+                                        Login
+                                    </button>
                                 </div>
                             </form>
+                            <div className='text-center space-y-4 mb-4'>
+                                <p>New here?? <span className="link link-hover link-primary font-bold text-lg"><Link to='/signup'>Create a New Account</Link></span></p>
+                                <p>or login with</p>
+                                <SocialLogin></SocialLogin>
+                            </div>
                         </div>
                     </div>
                 </div>
