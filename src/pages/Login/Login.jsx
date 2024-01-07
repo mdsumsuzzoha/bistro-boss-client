@@ -57,7 +57,7 @@ const Login = () => {
                             <img src={loginImg} className='w-[648px] h-[455px]' alt="" />
                         </div>
                         <div className="card shrink-0 w-full max-w-lg shadow-2xl ">
-                            <h3 className='text-3xl font-bold text-center mt-4'>Sign Up</h3>
+                            <h3 className='text-3xl font-bold text-center mt-4'>Log In</h3>
                             <form onSubmit={handleSubmit(handleLogin)} className="card-body">
                                 <div className="form-control">
                                     <label className="label">

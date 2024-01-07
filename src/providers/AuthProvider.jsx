@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import { app } from "../firebase/firebase.config";
 import PropTypes from 'prop-types';
+import useAxiosPublic from "../hooks/useAxiosPublic";
 
 
 export const AuthContext = createContext(null);
@@ -11,6 +12,7 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState([]);
     const [loading, setLoading] = useState(true);
     const googleProvider = new GoogleAuthProvider();
+    const axiosPublic = useAxiosPublic();
 
     const createUser = async (email, password) => {
         return createUserWithEmailAndPassword(auth, email, password)
@@ -22,7 +24,7 @@ const AuthProvider = ({ children }) => {
 
     }
 
-    const googleSignIn = ()=>{
+    const googleSignIn = () => {
         setLoading(true);
         return signInWithPopup(auth, googleProvider)
 
@@ -31,24 +33,34 @@ const AuthProvider = ({ children }) => {
     const logOut = async () => {
         setLoading(true);
         return signOut(auth)
-            
+
     }
 
-    const updateUserProfile = (name, photo)=>{
-       return updateProfile(auth.currentUser, {
+    const updateUserProfile = (name, photo) => {
+        return updateProfile(auth.currentUser, {
             displayName: name, photoURL: photo
-          })
+        })
     }
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser);
             setLoading(false);
+            // console.log(currentUser);
+            const userInfo = { email: currentUser?.email };
             if (currentUser) {
-                // https://firebase.google.com/docs/reference/js/auth.user
+                // get token and store client
+                axiosPublic.post('/jwt', userInfo)
+                    .then(res => {
+                        if (res.data.token) {
+                            localStorage.setItem('access-token', res.data.token);
+                        }
+                    })
             } else {
-                // User is signed out
+                // TODO : remove token
+                localStorage.removeItem('access-token');
             }
+            
         });
         return () => {
             setLoading(false);
@@ -75,5 +87,5 @@ const AuthProvider = ({ children }) => {
 };
 AuthProvider.propTypes = {
     children: PropTypes.node
-  };
+};
 export default AuthProvider;

@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../providers/AuthProvider";
 import useCart from "../../../hooks/useCart";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
     const { user, logOut } = useContext(AuthContext);
@@ -10,9 +11,31 @@ const Navbar = () => {
     // console.log(totalPrice)
 
     const handleLogOut = () => {
-        logOut()
-            .then(console.log('Log Out successfull'))
-            .catch(console.log('Log Out unsuccessfull'))
+        Swal.fire({
+            title: "Are you sure?",
+            icon: "question",
+            position: "top-end",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, Log Out"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                logOut()
+                    .then(
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Done",
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    )
+
+            }
+        });
+
+
     }
     const navOptions = <>
         <li><Link to='/'>Home</Link></li>
