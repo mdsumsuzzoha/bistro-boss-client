@@ -1,13 +1,15 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { FaBook, FaCalendarAlt, FaCalendarCheck, FaHome, FaList, FaListAlt, FaMailBulk, FaShoppingBag, FaShoppingCart, FaStarHalfAlt, FaUsers, FaUtensils } from "react-icons/fa";
 import useAdmin from "../hooks/useAdmin";
+// import useAdmin from "../hooks/useAdmin";
 
 
 const Dashboard = () => {
 
     //TODO: get os Admin value from the DB
-    const isAdmin = useAdmin();
-    console.log(isAdmin);
+    const [isAdmin] = useAdmin();
+    // const isAdmin = true;
+    // console.log(isAdmin);
     return (
         <div className="flex ">
             <div className="w-[280px] min-h-screen bg-[#D1A054]">

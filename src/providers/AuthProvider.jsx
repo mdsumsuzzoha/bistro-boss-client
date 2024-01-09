@@ -45,11 +45,10 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser);
-            setLoading(false);
-            // console.log(currentUser);
-            const userInfo = { email: currentUser?.email };
+            console.log(currentUser);
             if (currentUser) {
                 // get token and store client
+                const userInfo = { email: currentUser.email };
                 axiosPublic.post('/jwt', userInfo)
                     .then(res => {
                         if (res.data.token) {
@@ -57,16 +56,17 @@ const AuthProvider = ({ children }) => {
                         }
                     })
             } else {
-                // TODO : remove token
+                // done : remove token
                 localStorage.removeItem('access-token');
             }
-            
+            setLoading(false); 
+
         });
         return () => {
             setLoading(false);
             return unsubscribe();
         }
-    }, [])
+    }, [axiosPublic])
 
     const authInfo = {
         loading,

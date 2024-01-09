@@ -25,11 +25,12 @@ const Login = () => {
 
     const handleLogin = data => {
         signIn(data.email, data.password)
-            .then((result) => {
-                console.log('signin', result.user)
-                // Signed in popup swal
-                navigate(from, { replace: true });
-            })
+            .then(
+                // (result) => {
+                //     console.log('signin', result.user)
+                // }
+                navigate(from, { replace: true })
+            )
             .catch(() => {
                 // const errorMessage = error.message;
             });
