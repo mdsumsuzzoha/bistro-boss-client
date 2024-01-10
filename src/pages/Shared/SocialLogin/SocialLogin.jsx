@@ -12,16 +12,16 @@ const SocialLogin = () => {
     const handleGoogleLogin = ()=>{
         googleSignIn()
         .then(res=>{
-            console.log(res.user);
+            // console.log(res.user);
             const userInfo ={
                 email: res.user?.email,
                 name: res.user?.displayName,
             }
             axiospublic.post('/users', userInfo)
-            .then(res=>{
-                console.log(res.data);
-                navigate(location.state?.from.pathname || '/');
-            })
+            .then(
+                navigate(location.state?.from.pathname || '/')
+                // res=>{ console.log(res.data); }
+            )
         })
     }
     return (

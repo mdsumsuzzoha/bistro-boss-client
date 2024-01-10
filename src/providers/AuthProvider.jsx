@@ -9,7 +9,7 @@ export const AuthContext = createContext(null);
 const auth = getAuth(app);
 
 const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState([]);
+    const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const googleProvider = new GoogleAuthProvider();
     const axiosPublic = useAxiosPublic();
@@ -43,30 +43,35 @@ const AuthProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, currentUser => {
+        setLoading(true);
+        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
             setUser(currentUser);
-            console.log(currentUser);
             if (currentUser) {
                 // get token and store client
                 const userInfo = { email: currentUser.email };
-                axiosPublic.post('/jwt', userInfo)
-                    .then(res => {
-                        if (res.data.token) {
-                            localStorage.setItem('access-token', res.data.token);
-                        }
-                    })
+                try {
+                    const res = await axiosPublic.post('/jwt', userInfo);
+                    if (res.data.token) {
+                        localStorage.setItem('access-token', res.data.token);
+                    }
+                } catch (error) {
+                    // console.log("Error in /jwt request:", error);
+                }
             } else {
-                // done : remove token
+                // remove token from local storages
                 localStorage.removeItem('access-token');
             }
-            setLoading(false); 
-
-        });
-        return () => {
             setLoading(false);
-            return unsubscribe();
-        }
-    }, [axiosPublic])
+        });
+
+        return () => {
+            // console.log("Cleanup");
+            setLoading(false);
+            return  unsubscribe();
+        };
+    }, [axiosPublic]);
+
+
 
     const authInfo = {
         loading,

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 
 const MenuCategory = ({ items, title }) => {
+    // console.log(items);
     return (
         <div>
             <div className="w-[1320px] mx-auto space-y-12 mb-24 mt-10">
@@ -19,7 +20,7 @@ const MenuCategory = ({ items, title }) => {
     );
 };
 MenuCategory.propTypes = {
-    bgImg: PropTypes.string,
+    // bgImg: PropTypes.string,
     title: PropTypes.string,
     items: PropTypes.array,
 };
