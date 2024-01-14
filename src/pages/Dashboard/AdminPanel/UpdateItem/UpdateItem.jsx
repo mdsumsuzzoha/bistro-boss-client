@@ -1,9 +1,9 @@
 import { FaUtensils } from "react-icons/fa";
-import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 import { useForm } from "react-hook-form";
 import { useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import SectionTitle from "../../../../components/SectionTitle/SectionTitle";
 
 const UpdateItem = () => {
     const item = useLoaderData();

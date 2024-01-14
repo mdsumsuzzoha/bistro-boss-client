@@ -2,6 +2,7 @@ import { Navigate, useLocation } from 'react-router-dom';
 import useAdmin from '../hooks/useAdmin';
 import useAuth from '../hooks/useAuth';
 import PropTypes from 'prop-types';
+import AuthLoading from '../components/Loading/AuthLoading';
 
 
 const AdminRoute = ({children}) => {
@@ -11,7 +12,7 @@ const AdminRoute = ({children}) => {
     const location = useLocation();
 
     if(loading || isAdminLoading){
-        return <span className="loading loading-spinner loading-md"></span>
+        return <AuthLoading></AuthLoading>
 
     }
     if(user || isAdmin){

@@ -1,15 +1,17 @@
 import { FaTrashAlt } from "react-icons/fa";
-import useCart from "../../../hooks/useCart";
+import useCart from "../../../../hooks/useCart";
 import Swal from "sweetalert2";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import { Link } from "react-router-dom";
 
 
 const Cart = () => {
     const [cart, refetch] = useCart();
+    // console.log(cart);
     const totalPrice = cart.reduce((total, item) => total + item.price, 0)
     // console.log(totalPrice);
     const axiosSecure = useAxiosSecure();
-    const HandleDelete = (_id) => {
+    const handleDelete = (_id) => {
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -23,7 +25,7 @@ const Cart = () => {
                 axiosSecure.delete(`/carts/${_id}`)
                     .then(res => {
                         // console.log(res.data)
-                        if (res.data.deletedCount >0) {
+                        if (res.data.deletedCount > 0) {
                             refetch();
                             Swal.fire({
                                 title: "Deleted!",
@@ -43,7 +45,9 @@ const Cart = () => {
             <div className="flex justify-evenly">
                 <h3 className="text-4xl uppercase font-semibold">Total Orders: {cart.length}</h3>
                 <h3 className="text-4xl uppercase font-semibold">Total Price: ${totalPrice}</h3>
-                <button className="btn btn-outline btn-info uppercase">pay</button>
+                {cart.length ? <Link to='/dashboard/payment'>
+                    <button className="btn btn-outline btn-info uppercase">pay</button>
+                </Link>: <button disabled className="btn btn-outline btn-info uppercase">pay</button>}
             </div>
             <div>
                 <div className="overflow-x-auto">
@@ -74,8 +78,11 @@ const Cart = () => {
                                     </td>
                                     <td>{item?.name}</td>
                                     <td>${item?.price}</td>
-                                    <td className="w-[40px] h-[40px] bg-red-700 rounded ">
-                                        <button onClick={() => HandleDelete(item._id)}><FaTrashAlt className="text-3xl text-center text-white mx-auto " /></button>
+                                    <td className="w-[20px]   text-center ">
+                                        <button onClick={() => handleDelete(item._id)}
+                                            className="bg-red-700 p-4 rounded">
+                                            <FaTrashAlt className="text-xl text-center text-white mx-auto " /></button>
+
                                     </td>
                                 </tr>)
                             }

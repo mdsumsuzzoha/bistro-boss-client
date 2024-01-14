@@ -3,10 +3,13 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../../providers/AuthProvider";
 import useCart from "../../../hooks/useCart";
 import Swal from "sweetalert2";
+import useAdmin from "../../../hooks/useAdmin";
 
 const Navbar = () => {
     const { user, logOut } = useContext(AuthContext);
     const [cart] = useCart();
+    const [isAdmin, ] = useAdmin();
+    // console.log('from NavBar', isAdmin, );
     const totalPrice = cart.reduce((total, item) => total + item.price, 0)
     // console.log(totalPrice)
 
@@ -30,7 +33,7 @@ const Navbar = () => {
                             showConfirmButton: false,
                             timer: 1500
                         })
-                    ).catch(error =>console.log(error));
+                    ).catch(error => console.log(error));
 
             }
         });
@@ -52,19 +55,7 @@ const Navbar = () => {
         </li>
         <li><a>Item 3</a></li>
     </>
-    // const navOptions = <>
-    //     <li><a>Item 1</a></li>
-    //     <li>
-    //         <details>
-    //             <summary>Parent</summary>
-    //             <ul className="p-2">
-    //                 <li><a>Submenu 1</a></li>
-    //                 <li><a>Submenu 2</a></li>
-    //             </ul>
-    //         </details>
-    //     </li>
-    //     <li><a>Item 3</a></li>
-    // </>
+
     return (
 
         <>
@@ -98,7 +89,10 @@ const Navbar = () => {
                                 <span className="font-bold text-lg">{cart.length} Items</span>
                                 <span className="text-info">Subtotal: ${totalPrice}</span>
                                 <div className="card-actions">
-                                    <Link to='/dashboard/cart' className="btn btn-outline btn-info btn-block">View Dashboard</Link>
+                                    <Link
+                                        // to='/dashboard'
+                                        to={isAdmin ==true  ? '/dashboard/adminHome' : '/dashboard/userHome'}
+                                        className="btn btn-outline btn-info btn-block">View Dashboard</Link>
                                 </div>
                             </div>
                         </div>

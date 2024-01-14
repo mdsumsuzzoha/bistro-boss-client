@@ -12,7 +12,7 @@ import '@smastrom/react-rating/style.css'
 const Testionials = () => {
     const [review, setReview] = useState([]);
     useEffect(() => {
-        fetch('http://localhost:5000/review')
+        fetch('https://bistro-boss-server-314utzixd-sumsuzzohas-projects.vercel.app/review')
             .then(res => res.json())
             .then(data => setReview(data))
     }, [])

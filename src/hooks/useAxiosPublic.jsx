@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosPublic = axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: 'https://bistro-boss-server-314utzixd-sumsuzzohas-projects.vercel.app',
     // timeout: 1000,
     // headers: {'X-Custom-Header': 'foobar'}
   });

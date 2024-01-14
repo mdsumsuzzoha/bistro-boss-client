@@ -1,11 +1,12 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { FaBook, FaCalendarAlt, FaCalendarCheck, FaHome, FaList, FaListAlt, FaMailBulk, FaShoppingBag, FaShoppingCart, FaStarHalfAlt, FaUsers, FaUtensils } from "react-icons/fa";
+import { FaBook, FaCalendarAlt, FaCalendarCheck, FaHome, FaList, FaListAlt, FaMailBulk, FaShoppingBag, FaShoppingCart, FaStarHalfAlt, FaUsers, FaUtensils, FaWallet } from "react-icons/fa";
 import useAdmin from "../hooks/useAdmin";
 
 const Dashboard = () => {
 
     //TODO: get os Admin value from the DB
     const [isAdmin] = useAdmin();
+    // console.log('from dashboard', isAdmin);
     return (
         <div className="flex ">
             <div className="w-[280px] min-h-screen bg-[#D1A054]">
@@ -38,6 +39,9 @@ const Dashboard = () => {
                                 </li>
                                 <li>
                                     <NavLink to='/dashboard/reservation' className="uppercase text-xl"> <FaCalendarAlt /> reservation</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to='/dashboard/paymentHistory' className="uppercase text-xl"> <FaWallet /> Payment History</NavLink>
                                 </li>
                                 <li>
                                     <NavLink to='/dashboard/cart' className="uppercase text-xl"> <FaShoppingCart /> My cart</NavLink>

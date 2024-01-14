@@ -53,6 +53,7 @@ const AuthProvider = ({ children }) => {
                     const res = await axiosPublic.post('/jwt', userInfo);
                     if (res.data.token) {
                         localStorage.setItem('access-token', res.data.token);
+                        setLoading(false);
                     }
                 } catch (error) {
                     // console.log("Error in /jwt request:", error);
